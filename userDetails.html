@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
+  </head>
+  <body>
+    <br>
+    <div class="form-group">
+      <label>First Name</label>
+      <input id="fName" type="text" style="width: 300px;"/>
+    </div> 
+    <br>
+    <div class="form-group">
+      <label>Last Name</label>
+      <input id="lName" type="text" style="width: 300px;"/>
+    </div>
+    <br>
+    <div>
+      <button class="action" id="btnOk" onclick="onOK()">Ok</button>
+      <button onclick="google.script.host.close()">Cancel</button>
+    </div>
+    <script>
+    document.getElementById("fName").focus();
+    function onOK() {
+      var userData = {
+        fName: document.getElementById("fName").value,
+        lName: document.getElementById("lName").value
+      };
+               
+      google.script.run.withSuccessHandler(success)
+            .setUserData(userData);
+      }
+      
+      function success(){
+          google.script.host.close();
+      }
+    </script>
+  </body>
+</html>
+
+
