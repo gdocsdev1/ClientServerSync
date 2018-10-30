@@ -4,11 +4,23 @@
     <base target="_top">
   </head>
   <body>
-    <div id="itemsList">
+    <div id="usersList">
     </div>
   </body>
   <script>  
-  google.script.run.showUserForm();
+  function usersCallBack(users) {
+    if (users.length > 0) {
+      var listItems = '<ul>';
+      for (var i = 0; i < users.length; ++i) {
+        listItems += '<li>' + users[i] + '</li>';
+      }
+      listItems += '</ul>';
+      document.getElementById("usersList").innerHTML = listItems;
+    }  
+  }
+  
+  google.script.run.withSuccessHandler(usersCallBack).getUsers();
+  
   </script>
 </html>
 
