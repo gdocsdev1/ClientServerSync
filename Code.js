@@ -5,6 +5,7 @@ function onInstall(e) {
 function onOpen(e){
   var mainMenu = SpreadsheetApp.getUi().createAddonMenu();
   mainMenu.addItem('Sidebar', 'onSidebar');
+  mainMenu.addItem('Clear Cache', 'onClearCache');
   mainMenu.addToUi();
 }
 
@@ -13,18 +14,23 @@ function onSidebar(){
   SpreadsheetApp.getUi().showSidebar(html);
 } 
 
-var items = ["One", "Two", "Three"];
-  
-function showUserForm(){
-  console.log('Items = ' + JSON.stringify(items));
-  var html1 = HtmlService.createHtmlOutputFromFile('userDetails').setWidth(300).setHeight(200);
-  SpreadsheetApp.getUi().showModalDialog(html1,'User Details'); 
-  
-  items.push('Five');
-  console.log('Items = ' + JSON.stringify(items));
+function onClearCache() {
+  PropertiesService.getDocumentProperties().deleteAllProperties();
 }
 
 function setUserData(userData){
-  items.push('Four');
-  console.log('Items = ' + JSON.stringify(items));
+  var name = userData.fName + ' ' + userData.lName;
+  PropertiesService.getDocumentProperties().setProperty('USER_NAME', name);
+}
+
+function getUsers(){
+  var users = [];
+  var name = PropertiesService.getDocumentProperties().getProperty('USER_NAME');
+  if(name == null){
+    var html1 = HtmlService.createHtmlOutputFromFile('userDetails').setWidth(300).setHeight(200);
+    SpreadsheetApp.getUi().showModalDialog(html1,'User Details'); 
+  } else {
+    users.push(name);
+  }
+  return users;
 }
